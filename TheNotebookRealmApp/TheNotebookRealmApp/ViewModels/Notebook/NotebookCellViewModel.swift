@@ -6,6 +6,17 @@
 //
 
 import Foundation
-class NotebookCellViewModel{
+class NotebookCellViewModel {
+    
+    private var notebook: Notebook
+    
+    var title:     String
+    var createdAt: Date
+    
+    init(notebook: Notebook){
+        self.notebook  = notebook
+        self.title     = self.notebook.title
+        self.createdAt = self.notebook.createdAt
+    }
     
 }

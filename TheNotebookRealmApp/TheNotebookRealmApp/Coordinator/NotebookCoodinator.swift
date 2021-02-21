@@ -22,8 +22,11 @@ class NotebookCoordinator: Coordinator {
     
     // MARK: - Coordinator override methods
     override func start() {
+            
+        let viewModel      = NotebookViewModel()
+        let controller     = NotebookViewController(notebookViewModel: viewModel)
+        viewModel.delegate = controller
         
-        let controller = NotebookViewController()
         self.presenter.setViewControllers([controller], animated: true)
         
     }
