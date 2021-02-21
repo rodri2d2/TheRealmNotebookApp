@@ -6,8 +6,13 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct Notebook {
-    let title:     String
-    let createdAt: Date
+class Notebook: Object{
+    
+    @objc dynamic var title =    ""
+    @objc dynamic var createdAt = Date()
+    
+    //Has many notes
+    let notes = List<Note>()
 }

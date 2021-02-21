@@ -34,7 +34,9 @@ class NoteViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.viewModel.viewWasLoad()
+        //
         setupOutletsStyleAndItems()
     }
     

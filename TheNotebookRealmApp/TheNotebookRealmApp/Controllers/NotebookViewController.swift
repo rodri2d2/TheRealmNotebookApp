@@ -34,6 +34,7 @@ class NotebookViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.viewModel.viewWasLoad()
         //
         setupOutletsStyleAndItems()
     }

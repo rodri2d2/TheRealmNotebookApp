@@ -13,6 +13,7 @@ class NoteViewModel{
     private let notebook: Notebook
     
     //Data
+    private let dataManager = DataManager.shared
     private var noteCellViewModel: [NoteCellViewModel] = []
     
     //Delegates
@@ -22,7 +23,15 @@ class NoteViewModel{
         self.notebook = belongsTo
     }
     
-    func viewWasLoad(){}
+    func viewWasLoad(){
+        
+        self.noteCellViewModel.removeAll()
+        let notes = self.dataManager.fetchAllNotes(belongsTo: self.notebook)
+        notes?.forEach({ [weak self] (note) in
+            guard let self = self else {return}
+            self.noteCellViewModel.append(NoteCellViewModel(note: note))
+        })
+    }
     
     func titleWasRequested() -> String {
         return notebook.title
@@ -37,9 +46,16 @@ class NoteViewModel{
     }
     
     func plusButtonWasPressed(title: String){
-        let note = Note(title: title, createdAt: Date())
-        self.noteCellViewModel.append(NoteCellViewModel(note: note))
-        delegate?.dataDidChange()
+        
+        let note = Note()
+        note.title = title
+        note.createdAt = Date()
+        
+        self.dataManager.addNote(note: note, belongsTo: self.notebook)
+        
+        self.viewWasLoad()
+        self.delegate?.dataDidChange()
+        
     }
     
 }
