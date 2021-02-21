@@ -19,4 +19,8 @@ class NotebookCellViewModel {
         self.createdAt = self.notebook.createdAt
     }
     
+    
+    func getNotebook() -> Notebook {
+        return self.notebook
+    }
 }

@@ -106,7 +106,7 @@ extension NotebookViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cellViewModel = self.viewModel.noteboolCellForRow(at: indexPath)
+        let cellViewModel = self.viewModel.notebookCellForRow(at: indexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: NotebookCell.IDENTIFIER, for: indexPath) as! NotebookCell
         cell.configure(cellViewModel: cellViewModel)
         return cell
@@ -117,6 +117,7 @@ extension NotebookViewController: UITableViewDataSource{
 extension NotebookViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        self.viewModel.notebookWasSelected(at: indexPath)
     }
 }
 

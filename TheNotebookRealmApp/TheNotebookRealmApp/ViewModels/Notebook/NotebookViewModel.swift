@@ -11,26 +11,32 @@ class NotebookViewModel {
     // MARK: - Class properties
     
     //Delegate
-    var delegate: NotebookViewModelDelegate?
+    var delegate:            NotebookViewModelDelegate?
+    var coordinatorDelegate: NotebookCoordinatorDelegate?
     
     //Data
-    private var notebookCell: [NotebookCellViewModel] = []
+    private var notebookCellViewModel: [NotebookCellViewModel] = []
     
     
     // MARK: - Class functionalities
     func viewWasLoad(){}
     
     func numberOfNotebooks() -> Int {
-        return notebookCell.count
+        return notebookCellViewModel.count
     }
     
-    func noteboolCellForRow(at indexPath: IndexPath) -> NotebookCellViewModel {
-        return notebookCell[indexPath.row]
+    func notebookCellForRow(at indexPath: IndexPath) -> NotebookCellViewModel {
+        return notebookCellViewModel[indexPath.row]
     }
     
     func addNoteButtonWasPressed(title: String){
         let notebook = Notebook(title: title, createdAt: Date())
-        notebookCell.append(NotebookCellViewModel(notebook: notebook))
+        notebookCellViewModel.append(NotebookCellViewModel(notebook: notebook))
         self.delegate?.dataDidChange()
+    }
+    
+    func notebookWasSelected(at indexPath: IndexPath){
+        let notebook = notebookCellViewModel[indexPath.row].getNotebook()
+        self.coordinatorDelegate?.didSelectANotebook(notebook: notebook)
     }
 }
