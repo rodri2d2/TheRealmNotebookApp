@@ -18,7 +18,7 @@ The main goal is to create an app to access a local storage through Realm framew
 <br />
 
 ```
-For more detail how to user Reaml Framework, please check its official home page at https://realm.io
+For more details on how to use Realm Framework, please check its official documentation https://realm.io
 
 ```
 
