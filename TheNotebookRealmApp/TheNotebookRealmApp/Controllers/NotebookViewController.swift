@@ -54,7 +54,7 @@ class NotebookViewController: UIViewController {
 
             if let notebookTitle = alert.textFields?.first?.text{
                 if !notebookTitle.isEmpty{
-                    self.viewModel.addNoteButtonWasPressed(title: notebookTitle)
+                    self.viewModel.addNotebookButtonWasPressed(title: notebookTitle)
                 }
             }
             
@@ -62,6 +62,79 @@ class NotebookViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    
+    private func editAction(at indexPath: IndexPath) -> UIContextualAction {
+        
+        let action = UIContextualAction(style: .normal, title: "Edit") { [weak self](action, view, completion) in
+            guard let self = self else { return }
+            
+            let notebook = self.viewModel.notebookCellForRow(at: indexPath).getNotebook()
+            
+            let alert = UIAlertController(title: "Edit Notebook", message: "Enter the title of your new notebook", preferredStyle: .alert)
+            
+            alert.addTextField { (textield) in
+                textield.text = notebook.title
+            }
+            
+            alert.addAction(UIAlertAction(title: "Create", style: .default, handler: { (action) in
+
+                if let notebookTitle = alert.textFields?.first?.text{
+                    if !notebookTitle.isEmpty{
+                        self.viewModel.updateNotebookWasPressed(notebook: notebook, newTitle: notebookTitle)
+                    }
+                }
+                
+            }))
+            
+            //
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+                self.viewModel.cancelButtonWasPressed()
+            }))
+            
+            //
+            self.present(alert, animated: true, completion: nil)
+            
+            
+        }
+        
+        action.backgroundColor = .systemBlue
+        action.image = UIImage(systemName: "pencil")
+        return action
+        
+    }
+    
+    
+    private func deleteAction(at indexPath: IndexPath) -> UIContextualAction {
+        
+        let action = UIContextualAction(style: .normal, title: "Edit") { [weak self](action, view, completion) in
+            guard let self = self else { return }
+        
+            let alert = UIAlertController(title: "Delete Notebook", message: "Notebook will be permanently deleted!", preferredStyle: .alert)
+            let notebook = self.viewModel.notebookCellForRow(at: indexPath).getNotebook()
+    
+            alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
+
+                self.viewModel.deleteButtonWasPressed(notebook: notebook)
+                
+            }))
+            
+            //
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+                self.viewModel.cancelButtonWasPressed()
+            }))
+            
+            //
+            self.present(alert, animated: true, completion: nil)
+            
+            
+        }
+        
+        action.backgroundColor = .systemRed
+        action.image = UIImage(systemName: "trash")
+        return action
+        
     }
     
     
@@ -78,7 +151,6 @@ class NotebookViewController: UIViewController {
         //Navigation bar itself congifuration
         self.title = "Notebook"
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        
         //
         addPlusButton()
         
@@ -119,6 +191,14 @@ extension NotebookViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         self.viewModel.notebookWasSelected(at: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let delete = deleteAction(at: indexPath)
+        let edit = editAction(at: indexPath)
+        return UISwipeActionsConfiguration(actions: [delete, edit])
+        
     }
 }
 

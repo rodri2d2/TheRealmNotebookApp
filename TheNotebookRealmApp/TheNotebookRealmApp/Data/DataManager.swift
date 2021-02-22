@@ -74,6 +74,18 @@ extension DataManager {
         }
     }
     
+    
+    func fetchSingleNote(searchFor text: String) -> [Note]? {
+        
+        let predicate = NSPredicate(format: "title CONTAINS %@", text)
+        let notes = realm.objects(Note.self)
+        let notesFound = notes.filter(predicate)
+        return notesFound.map { (note) in
+            note
+        }
+        
+    }
+    
     func addNote(note: Note, belongsTo notebook: Notebook){
         do {
             try realm.write({

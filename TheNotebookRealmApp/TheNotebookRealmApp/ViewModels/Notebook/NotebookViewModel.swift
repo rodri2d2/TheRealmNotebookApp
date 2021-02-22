@@ -36,8 +36,13 @@ class NotebookViewModel {
     func notebookCellForRow(at indexPath: IndexPath) -> NotebookCellViewModel {
         return notebookCellViewModel[indexPath.row]
     }
+        
+    func notebookWasSelected(at indexPath: IndexPath){
+        let notebook = notebookCellViewModel[indexPath.row].getNotebook()
+        self.coordinatorDelegate?.didSelectANotebook(notebook: notebook)
+    }
     
-    func addNoteButtonWasPressed(title: String){
+    func addNotebookButtonWasPressed(title: String){
         let notebook = Notebook()
         notebook.createdAt = Date()
         notebook.title = title
@@ -47,8 +52,22 @@ class NotebookViewModel {
         self.delegate?.dataDidChange()
     }
     
-    func notebookWasSelected(at indexPath: IndexPath){
-        let notebook = notebookCellViewModel[indexPath.row].getNotebook()
-        self.coordinatorDelegate?.didSelectANotebook(notebook: notebook)
+    
+    func updateNotebookWasPressed(notebook: Notebook, newTitle: String){
+        self.dataManager.updateNotebook(notebook: notebook, with: newTitle)
+        self.viewWasLoad()
+        self.delegate?.dataDidChange()
     }
+    
+    func deleteButtonWasPressed(notebook: Notebook){
+        self.dataManager.deleteNotebook(notebook: notebook)
+        self.viewWasLoad()
+        self.delegate?.dataDidChange()
+    }
+    
+    func cancelButtonWasPressed(){
+        self.viewWasLoad()
+        self.delegate?.dataDidChange()
+    }
+    
 }

@@ -139,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				5B52058325E270F200F69034 /* App */,
+				5BC62F2C25E3AB2700A4265D /* Resources */,
 				5B5205B325E2ADC300F69034 /* Extensions */,
 				5B52058925E2715300F69034 /* Data */,
 				5B52058825E2714A00F69034 /* Models */,
@@ -146,7 +147,6 @@
 				5B52059825E279D100F69034 /* Controllers */,
 				5B52058A25E2716000F69034 /* ViewModels */,
 				5B52058725E2713E00F69034 /* Coordinator */,
-				5B52057625E26F6500F69034 /* Assets.xcassets */,
 			);
 			path = TheNotebookRealmApp;
 			sourceTree = "<group>";
@@ -251,6 +251,14 @@
 				5B5205B425E2ADD500F69034 /* UIView+Ext.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5BC62F2C25E3AB2700A4265D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5B52057625E26F6500F69034 /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

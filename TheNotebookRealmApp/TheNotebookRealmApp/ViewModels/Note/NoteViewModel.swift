@@ -46,7 +46,6 @@ class NoteViewModel{
     }
     
     func plusButtonWasPressed(title: String){
-        
         let note = Note()
         note.title = title
         note.createdAt = Date()
@@ -55,7 +54,28 @@ class NoteViewModel{
         
         self.viewWasLoad()
         self.delegate?.dataDidChange()
-        
+    }
+    
+    func updateButtonWasPressed(note: Note, newTitle: String){
+        self.dataManager.updateNote(note: note, with: newTitle)
+        self.viewWasLoad()
+        self.delegate?.dataDidChange()
+    }
+    
+    func deleteButtonWasPressed(note: Note)  {
+        self.dataManager.deleteNote(note: note)
+        self.viewWasLoad()
+        self.delegate?.dataDidChange()
+    }
+    
+    func statingSearchFor(text: String){
+        self.noteCellViewModel.removeAll()
+        let notes = self.dataManager.fetchSingleNote(searchFor: text)
+        notes?.forEach({ [weak self] (note) in
+            guard let self = self else {return}
+            self.noteCellViewModel.append(NoteCellViewModel(note: note))
+        })
+        self.delegate?.dataDidChange()
     }
     
 }
